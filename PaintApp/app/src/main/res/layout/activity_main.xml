@@ -6,15 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.kyanogen.signatureview.SignatureView
-        xmlns:sign="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/signature_view"
+    <t3h.android.paintapp.view.DrawerView
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        sign:penSize="5dp"
-        sign:backgroundColor="#ffffff"
-        sign:penColor="#000000"
-        sign:enableSignature="true"
-        tools:ignore="MissingClass" />
+        android:background="@color/alphaYellow"/>
+
+    <ImageButton
+        android:id="@+id/btn_clear"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#00FFFFFF"
+        app:srcCompat="@drawable/close_icon" />
+
+    <ImageButton
+        android:id="@+id/btn_undo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/btn_clear"
+        android:background="#00FFFFFF"
+        app:srcCompat="@drawable/undo_icon" />
+
+    <ImageButton
+        android:id="@+id/btn_redo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/btn_undo"
+        android:background="#00FFFFFF"
+        app:srcCompat="@drawable/redo_icon" />
 
 </RelativeLayout>
