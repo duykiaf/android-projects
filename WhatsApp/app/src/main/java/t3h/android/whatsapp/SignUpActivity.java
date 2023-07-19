@@ -1,6 +1,7 @@
 package t3h.android.whatsapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -34,8 +35,12 @@ public class SignUpActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
+        setUpProgressDialog();
+    }
+
+    private void setUpProgressDialog() {
         progressDialog = new ProgressDialog(SignUpActivity.this);
         progressDialog.setTitle("Creating Account");
         progressDialog.setMessage("We're creating your account.");
@@ -44,9 +49,14 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        signUp();
+        openSignInScreen();
+    }
+
+    private void signUp() {
         binding.signUpBtn.setOnClickListener(v -> {
-            username = binding.usernameEdt.getText().toString();
-            email = binding.emailEdt.getText().toString();
+            username = binding.usernameEdt.getText().toString().trim();
+            email = binding.emailEdt.getText().toString().trim();
             password = binding.passwordEdt.getText().toString();
             if (!username.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
                 progressDialog.show();
@@ -68,5 +78,9 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please Enter Credentials", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void openSignInScreen() {
+        binding.signInClickTxt.setOnClickListener(v -> startActivity(new Intent(this, SignInActivity.class)));
     }
 }
