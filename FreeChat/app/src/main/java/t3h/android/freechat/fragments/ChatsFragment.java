@@ -1,5 +1,6 @@
 package t3h.android.freechat.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import t3h.android.freechat.ChatDetailActivity;
 import t3h.android.freechat.adapter.UsersListAdapter;
 import t3h.android.freechat.databinding.FragmentChatsBinding;
 import t3h.android.freechat.models.Users;
@@ -41,6 +43,10 @@ public class ChatsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initUsersList();
+    }
+
+    private void initUsersList() {
         adapter = new UsersListAdapter(usersList, getContext());
         binding.usersListRcv.setAdapter(adapter);
         binding.usersListRcv.setLayoutManager(new LinearLayoutManager(requireActivity()));
@@ -70,6 +76,17 @@ public class ChatsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        handleItemClickListener();
+    }
+
+    private void handleItemClickListener() {
+        adapter.setOnItemClickListener(user -> {
+            Intent intent = new Intent(requireActivity(), ChatDetailActivity.class);
+            intent.putExtra("userId", user.getUserId());
+            intent.putExtra("profileImage", user.getProfilePic());
+            intent.putExtra("username", user.getUsername());
+            requireActivity().startActivity(intent);
+        });
     }
 
     @Override
