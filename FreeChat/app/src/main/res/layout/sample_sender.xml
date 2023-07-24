@@ -15,7 +15,7 @@
         android:minHeight="30dp">
 
         <TextView
-            android:id="@+id/receiverTxt"
+            android:id="@+id/senderTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -24,7 +24,7 @@
             android:minWidth="50dp"
             android:text="This is your message"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/receiverTime"
+            app:layout_constraintBottom_toTopOf="@id/senderTime"
             app:layout_constraintEnd_toEndOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +32,7 @@
             tools:ignore="TextViewEdits" />
 
         <TextView
-            android:id="@+id/receiverTime"
+            android:id="@+id/senderTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
