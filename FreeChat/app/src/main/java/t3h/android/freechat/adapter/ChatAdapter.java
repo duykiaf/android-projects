@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import t3h.android.freechat.databinding.SampleReceiverBinding;
@@ -20,10 +22,17 @@ public class ChatAdapter extends RecyclerView.Adapter {
     private Context context;
     private int SENDER_VIEW_TYPE = 1;
     private int RECEIVER_VIEW_TYPE = 2;
+    private String receiverId;
 
     public ChatAdapter(List<MessageModel> messageModelList, Context context) {
         this.messageModelList = messageModelList;
         this.context = context;
+    }
+
+    public ChatAdapter(List<MessageModel> messageModelList, Context context, String receiverId) {
+        this.messageModelList = messageModelList;
+        this.context = context;
+        this.receiverId = receiverId;
     }
 
     @NonNull
@@ -76,6 +85,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
         public void bindSampleReceiverView(MessageModel messageModel) {
             sampleReceiverBinding.receiverTxt.setText(messageModel.getMessage());
+            sampleReceiverBinding.receiverTime.setText(handleStringDate(messageModel.getTimestamp()));
         }
     }
 
@@ -89,6 +99,13 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
         public void bindSampleSenderView(MessageModel messageModel) {
             sampleSenderBinding.senderTxt.setText(messageModel.getMessage());
+            sampleSenderBinding.senderTime.setText(handleStringDate(messageModel.getTimestamp()));
         }
+    }
+
+    private String handleStringDate(Long timestamp) {
+        Date date = new Date(timestamp);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
+        return simpleDateFormat.format(date);
     }
 }
