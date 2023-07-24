@@ -7,6 +7,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -66,7 +71,26 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
         public void bindView(Users user) {
             Picasso.get().load(user.getProfilePic()).placeholder(R.drawable.avatar3).into(binding.profileImage);
             binding.username.setText(user.getUsername());
-            binding.lastMessage.setText(user.getLastMessage());
+            // get last message
+            StringBuilder sb = new StringBuilder();
+            String chatRoomId = sb.append(FirebaseAuth.getInstance().getUid()).append(user.getUserId()).toString();
+            FirebaseDatabase.getInstance().getReference().child("chats")
+                    .child(chatRoomId).orderByChild("timestamp").limitToLast(1)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // DataSnapshot chứa dữ liệu tại địa chỉ đang truy cập
+                            if (snapshot.hasChildren()) {
+                                for (DataSnapshot data : snapshot.getChildren()) {
+                                    binding.lastMessage.setText(data.child("message").getValue().toString());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
         }
     }
 
